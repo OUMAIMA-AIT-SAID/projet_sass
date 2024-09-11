@@ -19,6 +19,12 @@ int count = 0;
 // Fonction d'ajout d'étudiants
 void ajouter_etudiant() {
     int n;
+    int numero;
+    char nom[15];
+    char prenom[20];
+    char date_de_naissance[50];
+    char departement[20];
+    double note_generale;
     printf("Combien d'etudiants voulez-vous ajouter ? ");
     scanf("%d", &n);
 
@@ -26,14 +32,9 @@ void ajouter_etudiant() {
         printf("Le carnet d'etudiants est plein.\n");
         return;
     }
-
+        
     for (int i = 0; i < n; i++) {
-        int numero;
-        char nom[15];
-        char prenom[20];
-        char date_de_naissance[50];
-        char departement[20];
-        double note_generale;
+        
 
         printf("Entrez le numero de l'etudiant: ");
         scanf("%d", &numero);
@@ -48,7 +49,7 @@ void ajouter_etudiant() {
         }
 
         if (!exist) {
-            etudiants[count].numero = numero;
+            etudiants[count].numero = count+1;
             printf("Entrez le nom de l'etudiant: ");
             scanf("%s", etudiants[count].nom);
             printf("Entrez le prenom de l'etudiant: ");
@@ -155,6 +156,36 @@ void supprimer_etudiant() {
         printf("Etudiant non trouve.\n");
     }
 }
+void modifier_etudiant() {
+    int NUM;
+    printf("Entrez le numéro de l'étudiant à modifier : ");
+    scanf("%d", &NUM);
+    int found = 0;
+
+    for (int i = 0; i < count; i++) {
+        if (etudiants[i].numero == NUM) {
+            printf("Veuillez entrer les nouvelles informations :\n");
+            printf("Nom : ");
+            scanf("%s", etudiants[i].nom);
+            printf("Prenom : ");
+            scanf("%s", etudiants[i].prenom);
+            printf("Date de naissance (JJ/MM/AAAA) : ");
+            scanf("%s", etudiants[i].date_de_naissance);
+            printf("Departement : ");
+            scanf("%s", etudiants[i].departement);
+            printf("Note generale : ");
+            scanf("%lf", &etudiants[i].note_generale);
+            printf("etudiant modifie.\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("etudiant non trouve.\n");
+    }
+}
+
 
 int main() {
     int choix;
@@ -164,8 +195,9 @@ int main() {
         printf("2. Afficher les etudiants\n");
         printf("3. Rechercher un etudiant\n");
         printf("4. Supprimer un etudiant\n");
-        printf("5. Quitter\n");
-        printf("Choisissez une option (1-5) : ");
+        printf("5. modifier un etudiant\n");
+        printf("6. Quitter\n");
+        printf("Choisissez une option (1-6) : ");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -182,6 +214,10 @@ int main() {
                 supprimer_etudiant();
                 break;
             case 5:
+             modifier_etudiant();
+
+            break;
+            case 6:
                 printf("Quitter le programme.\n");
                 exit(0);
             default:

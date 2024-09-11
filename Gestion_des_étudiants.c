@@ -4,6 +4,11 @@
 
 #define MAX_ETUDIANTS 100
 
+
+
+#define DATE_MAX 50
+#define DEPT_MAX 20
+
 typedef struct {
     int numero;
     char nom[15];
@@ -16,7 +21,7 @@ typedef struct {
 Etudiant etudiants[MAX_ETUDIANTS];
 int count = 0;
 
-// Fonction d'ajout d'étudiants
+// Fonction d'ajout d'étudiants ---------------------------------------------------------
 void ajouter_etudiant() {
     int n;
     int numero;
@@ -65,6 +70,7 @@ void ajouter_etudiant() {
         }
     }
 }
+//affichage d'étudiant -------------------------------------------------------------------------------
 
 void Afficher_etudiant() {
     printf("\nListe des etudiants :\n");
@@ -77,6 +83,7 @@ void Afficher_etudiant() {
         printf("Note generale : %.2f\n\n", etudiants[i].note_generale);
     }
 }
+//fonction de la recherche ---------------------------------------------------------------------------
 
 void recherche_etudiant() {
     char nom[15];
@@ -132,7 +139,7 @@ void recherche_etudiant() {
             break;
     }
 }
-
+//fonction de supprission----------------------------------------------------------------------
 void supprimer_etudiant() {
     int num;
     printf("Entrez le numero de l'etudiant pour supprimer: ");
@@ -156,6 +163,7 @@ void supprimer_etudiant() {
         printf("Etudiant non trouve.\n");
     }
 }
+//fonction des modifications ----------------------------------------------------
 void modifier_etudiant() {
     int NUM;
     printf("Entrez le numéro de l'étudiant à modifier : ");
@@ -185,19 +193,60 @@ void modifier_etudiant() {
         printf("etudiant non trouve.\n");
     }
 }
+//fonction de Moyenne génèrale-------------------------------------------------
+void calculer_moyenne_generale() {
+    double somme_notes_université = 0;
+    int count_nombre_etudiant = 0;
+    char departements[MAX_ETUDIANTS][DEPT_MAX];
+    double somme_dept[MAX_ETUDIANTS] = {0};
+    int count_dept[MAX_ETUDIANTS] = {0};
+    int dept_count = 0;
+ 
+    for (int i = 0; i < count; i++) {
+        int dept_found = 0;
+        for (int j = 0; j < dept_count; j++) {
+            if (strcmp(etudiants[i].departement, departements[j]) == 0) {
+                somme_dept[j] += etudiants[i].note_generale;
+                count_dept[j]++;
+                dept_found = 1;
+                break;
+            }
+        }
+        
+        if (!dept_found) {
+            strcpy(departements[dept_count], etudiants[i].departement);
+            somme_dept[dept_count] = etudiants[i].note_generale;
+            count_dept[dept_count] = 1;
+            dept_count++;
+        }
+        somme_notes_université += etudiants[i].note_generale;
+        count_nombre_etudiant++;
+    }
 
+    printf("\nMoyenne générale de chaque département :\n");
+    for (int i = 0; i < dept_count; i++) {
+        printf("Département %s : %.2f\n", departements[i], somme_dept[i] / count_dept[i]);
+    }
 
+    if (count_nombre_etudiant> 0) {
+        printf("Moyenne générale de l'université : %.2f\n", somme_notes_université / count_nombre_etudiant);
+    } else {
+        printf("Aucun étudiant pour calculer la moyenne.\n");
+    }
+}
+//fonction de main --------------------------------------------------------
 int main() {
     int choix;
-    while (1) {
+    while (choix<8) {
         printf("\nMenu :\n");
         printf("1. Ajouter des etudiants\n");
         printf("2. Afficher les etudiants\n");
         printf("3. Rechercher un etudiant\n");
         printf("4. Supprimer un etudiant\n");
         printf("5. modifier un etudiant\n");
-        printf("6. Quitter\n");
-        printf("Choisissez une option (1-6) : ");
+        printf("6. calculer le moyenne génèrale \n");
+        printf("7. Quitter\n");
+        printf("Choisissez une option (1-7) : ");
         scanf("%d", &choix);
 
         switch (choix) {
@@ -218,10 +267,13 @@ int main() {
 
             break;
             case 6:
+             calculer_moyenne_generale();
+            break;
+            case 7:
                 printf("Quitter le programme.\n");
                 exit(0);
             default:
-                printf("Choix invalide. Veuillez choisir une option entre 1 et 5.\n");
+                printf("Choix invalide. Veuillez choisir une option entre 1 et 7.\n");
                 break;
         }
     }

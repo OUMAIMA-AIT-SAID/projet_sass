@@ -1,1 +1,4 @@
-Physique
+
+            case 7:
+                statistiques();
+                break;

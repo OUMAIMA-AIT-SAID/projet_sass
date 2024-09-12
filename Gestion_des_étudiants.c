@@ -16,7 +16,7 @@ typedef struct {
 } Etudiant;
 
 Etudiant etudiants[MAX_ETUDIANTS];
-int count = 10;
+int count = 0;
 
 // Fonction d'ajout d'etudiants ---------------------------------------------------------
 void ajouter_etudiant() {
@@ -236,6 +236,7 @@ void calculer_moyenne_generale() {
 
 // Fonction de statistiques----------------------------------------------------
 void statistiques() {
+    
     int choix;
     printf("Choisissez les statistiques que vous souhaitez :\n");
     printf("1. Afficher le nombre total d'etudiants inscrits\n");
@@ -352,6 +353,90 @@ void statistiques() {
             break;
     }
 }
+//fonction de tri
+void les_tri(){
+    int choix ;
+    printf("1- Trier les etudiants alphabetiquement selon leur nom de A a Z \n");
+    printf("2- Trier les etudiants par moyenne generale par ordre croissant \n");
+    printf("3- Trier les etudiants selon leur statut de reussite  \n");
+    printf("4- Retourner au menu \n");
+    scanf("%d", &choix);
+    switch (choix){
+    //tri de nom de A à Z
+    case 1 :
+    if (count==0){
+        printf("aucun etudiant");
+        return;
+    }
+    for(int i=0;i<count-1;i++)
+    {
+        
+        for(int j = i + 1 ; j < count;j++)
+        if(strcmp(etudiants[i].nom,etudiants[j].nom)>0)
+        {      Etudiant temporaire=etudiants[i];
+                 etudiants[i]=etudiants[j];
+                 etudiants[j]=temporaire;
+
+        }
+       
+        
+    }
+    Afficher_etudiant();
+    break;
+    case 2:
+    //tri de par moyenne 
+    for(int i=0;i<count-1;i++)
+    {
+        for (int j = 0; j < count - i -1; j++)
+        {
+            if(etudiants[j].note_generale>etudiants[j + 1].note_generale )
+            {
+                  Etudiant temp =etudiants[j];
+                  etudiants[j]=etudiants[j + 1];
+                  etudiants[j + 1]=temp;
+            }
+        }
+       
+    } 
+    printf("les etudin");
+        Afficher_etudiant();
+        break;
+        case 3 :
+       for(int i=0;i<count-1;i++)
+    {
+        for (int j = 0; j < count - i -1; j++)
+        {
+            if(etudiants[j].note_generale>etudiants[j + 1].note_generale )
+            {
+                  Etudiant temp =etudiants[j];
+                  etudiants[j]=etudiants[j + 1];
+                  etudiants[j + 1]=temp;
+            }
+        }
+   } 
+   for(int i =0;i<count;i++){
+    if(etudiants[i].note_generale>10){
+         printf("Numero unique : %d\n", etudiants[i].numero);
+        printf("Nom : %s\n", etudiants[i].nom);
+        printf("Prenom : %s\n", etudiants[i].prenom);
+        printf("Date de naissance : %s\n", etudiants[i].date_de_naissance);
+        printf("Departement : %s\n", etudiants[i].departement);
+        printf("Note generale : %.2f\n\n", etudiants[i].note_generale);
+        
+    }
+   }
+   break;
+   case 4:
+   return ;
+   default :
+        printf("Choix invalide \n");
+        break ;
+
+    }
+    }
+
+
+
 
 // Fonction de main --------------------------------------------------------
 int main() {
@@ -372,8 +457,10 @@ int main() {
         printf("4. Supprimer un etudiant\n");
         printf("5. Modifier un etudiant\n");
         printf("6. Calculer la moyenne generale\n");
-        printf("7. Statistiques\n");
-        printf("8. Quitter\n");
+        printf("7. Sles tri\n");
+        printf("8. Statistiques\n");
+
+        printf("9. Quitter\n");
         printf("Choisissez une option (1-8) : ");
         scanf("%d", &choix);
 
@@ -400,6 +487,9 @@ int main() {
                 statistiques();
                 break;
             case 8:
+                les_tri();
+                break;
+            case 9:
                 printf("Quitter le programme.\n");
                 exit(0);
             default:

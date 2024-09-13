@@ -1,0 +1,20 @@
+Etudiant classe_copy[count];
+for(int i =0 ; i< count ; i++){
+	classe_copy[i] = classe[i];
+}   
+
+
+ for( int i =0 ; i< count -1; i++){
+            for(int j=0; j<count-i-1; j++){
+                if(strcmp(classe_copy[j].nom, classe_copy[j+1].nom)>0){
+                    Etudiant temp = classe_copy[j];
+                    classe_copy[j] = classe_copy[j+1];
+                    classe_copy[j+1]=temp;
+                }
+            }
+        }
+for(int i =0 ; i< count; i++)       
+
+     
+
+}
